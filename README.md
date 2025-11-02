@@ -2,7 +2,7 @@
 
 ![Banner](./public/banner.png)
 
-- Our sign language recognition project involved creating a custom dataset, preprocessing images, training a model, integrating with React, and hosting with Firebase. 
+- Our sign language recognition project involved creating a custom dataset, preprocessing images, training a model, integrating with React, and hosting with Node.js backend.
 
 - The result is a real-time sign language recognition application that recognizes a variety of sign language gestures.
 
@@ -29,7 +29,9 @@
 
 **Back-end:**
 
-- Firebase (for hosting, authentication, and storage)
+- Node.js with Express
+- MySQL database
+- JWT Authentication
 
 **Machine Learning Framework:**
 
@@ -41,8 +43,8 @@
 - @mediapipe/hands
 - @mediapipe/tasks-vision
 - @redux-devtools/extension
+- axios
 - chart.js
-- firebase
 - js-cookie
 - react-chartjs-2
 - react-icons
@@ -94,7 +96,9 @@
 
 - [React](https://react.dev/)
 - [mediapipe](https://developers.google.com/mediapipe)
-- [Firebase](https://firebase.google.com/)
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [MySQL](https://www.mysql.com/)
 - [NPM](https://www.npmjs.com/)
 
 ## Screenshots

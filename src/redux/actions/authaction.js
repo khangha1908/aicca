@@ -1,5 +1,4 @@
-import firebase from "firebase/compat/app";
-import { auth } from "../../firebase";
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import {
@@ -10,27 +9,22 @@ import {
   LOGOUT,
 } from "../action-types";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 export const login = () => async (dispatch) => {
   try {
     dispatch({
       type: LOGIN_REQ,
     });
 
-    const provider = new firebase.auth.GoogleAuthProvider();
-    
-    const res = await auth.signInWithPopup(provider);
+    const res = await axios.post(`${API_BASE_URL}/auth/login`);
 
-    const accessToken = res.credential.accessToken;
+    const accessToken = res.data.accessToken;
 
-    const profile = {
-      name: res.additionalUserInfo.profile.name,
-      photoURL: res.additionalUserInfo.profile.picture,
-      userId: res.additionalUserInfo.profile.id,
-    };
-    
+    const profile = res.data.profile;
 
     Cookies.set('sign-language-ai-access-token', accessToken, { expires: 2 });
-    Cookies.set('sign-language-ai-user', JSON.stringify(profile) , { expires: 2 })
+    Cookies.set('sign-language-ai-user', JSON.stringify(profile), { expires: 2 });
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -49,15 +43,17 @@ export const login = () => async (dispatch) => {
   }
 };
 
+export const logout = () => async dispatch => {
+  try {
+    await axios.post(`${API_BASE_URL}/auth/logout`);
+  } catch (error) {
+    console.error('Logout API error:', error);
+  }
 
-export const logout = () => async dispatch =>{
+  dispatch({
+    type: LOGOUT
+  });
 
-    await auth.signOut()
-
-    dispatch({
-        type: LOGOUT
-    }) 
-
-    Cookies.remove('sign-language-ai-access-token');
-    Cookies.remove('sign-language-ai-user');
-}
+  Cookies.remove('sign-language-ai-access-token');
+  Cookies.remove('sign-language-ai-user');
+};
